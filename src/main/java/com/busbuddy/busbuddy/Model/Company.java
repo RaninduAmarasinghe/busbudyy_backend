@@ -19,4 +19,5 @@ public class Company {
     private String companyAddress;
     private String companyEmail;
     private String companyPhone;
+    private String companyPassword;
 }

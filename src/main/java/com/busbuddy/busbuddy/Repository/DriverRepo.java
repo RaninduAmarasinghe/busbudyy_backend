@@ -1,4 +1,7 @@
 package com.busbuddy.busbuddy.Repository;
 
-public interface DriverRepo {
+import com.busbuddy.busbuddy.Model.Driver;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+public interface DriverRepo extends MongoRepository<Driver, String> {
 }
