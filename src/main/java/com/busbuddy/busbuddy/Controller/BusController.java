@@ -10,5 +10,14 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class BusController {
 
+    @Autowired
+
+    BusRepo busRepo;
+    @PostMapping("/add")
+
+    public String addBus(@RequestBody Bus bus) {
+        busRepo.save(bus);
+        return "success";
+    }
 
 }

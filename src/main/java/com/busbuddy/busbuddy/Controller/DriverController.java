@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class DriverController {
 
     @Autowired
-    DriverRepo driverRepo;
+     DriverRepo driverRepo;
 @PostMapping("/add")
     public String adddriver(@RequestBody  Driver driver) {
 driverRepo.save(driver);

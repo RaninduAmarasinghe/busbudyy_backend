@@ -3,7 +3,6 @@ package com.busbuddy.busbuddy.Model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -12,10 +11,8 @@ import java.util.List;
 @Document
 @NoArgsConstructor
 @AllArgsConstructor
-public class Bus {
-
-    @Id
-    private String id;
-    private String busNumber;
-private List<Route> routes;
+public class Route {
+    private String startPoint;
+    private String endPoint;
+    private List<String> departureTimes;
 }
