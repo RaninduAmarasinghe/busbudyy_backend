@@ -2,6 +2,7 @@ package com.busbuddy.busbuddy.Controller;
 
 import com.busbuddy.busbuddy.Model.Driver;
 import com.busbuddy.busbuddy.Repository.DriverRepo;
+import com.busbuddy.busbuddy.Service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,16 +15,23 @@ import java.util.Optional;
 public class DriverController {
 
     @Autowired
-    DriverRepo driverRepo;
+    private DriverService driverService;
 
-    // Add Driver
     @PostMapping("/add")
-    public String addDriver(@RequestBody Driver driver) {
-        driverRepo.save(driver);
-        return "Driver added";
+    public String createDriver(@RequestBody Driver driver) {
+        return driverService.createDriver(
+                driver.getDriverName(),
+                driver.getDriverEmail(),
+                driver.getDriverPhone(),
+                driver.getDriverPassword()
+        );
     }
 
-    // Driver Login
+
+
+    @Autowired
+    DriverRepo driverRepo;
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Driver driver) {
         // Use the `driver` parameter instead of the undefined `loginDetails`
