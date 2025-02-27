@@ -18,5 +18,6 @@ public class Driver {
 private String driverEmail;
 private String driverPhone;
 private String driverPassword;
+private String companyId;
 
 }

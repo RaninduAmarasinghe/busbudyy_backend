@@ -14,8 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 public class Bus {
 
+
+
     @Id
-    private String id;
     private String busNumber;
 private List<Route> routes;
+private String companyId;
 }
