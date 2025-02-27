@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,10 +24,17 @@ public class DriverController {
                 driver.getDriverName(),
                 driver.getDriverEmail(),
                 driver.getDriverPhone(),
-                driver.getDriverPassword()
+                driver.getDriverPassword(),
+                driver.getCompanyId()
         );
     }
 
+
+    @GetMapping("company/{companyId}")
+    public ResponseEntity<List<Driver>> getDriversByCompanyId(@PathVariable String companyId) {
+        List<Driver> drivers = driverService.getDriverByCompany(companyId);
+        return ResponseEntity.ok(drivers);
+    }
 
 
     @Autowired
@@ -44,4 +52,5 @@ public class DriverController {
             return ResponseEntity.status(401).body("Invalid email or password");
         }
     }
+
 }

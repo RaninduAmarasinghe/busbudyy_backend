@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.UUID;
+
 @Document(collection = "company")
 @Data
 @AllArgsConstructor
@@ -13,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Company {
 
     @Id
-    private String id;
+    private String companyId = UUID.randomUUID().toString();
 
     private String companyName;
     private String companyAddress;
