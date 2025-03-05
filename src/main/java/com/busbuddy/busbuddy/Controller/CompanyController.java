@@ -38,7 +38,7 @@ public class CompanyController {
         Optional<Company> companyOptional = companyRepo.findByCompanyEmail(company.getCompanyEmail());
 
        if (companyOptional.isPresent() && companyOptional.get().getCompanyPassword().equals(company.getCompanyPassword())) {
-           return ResponseEntity.ok("Company logged in successfully");
+           return ResponseEntity.ok(companyOptional.get().getCompanyId());
        }else {
            return ResponseEntity.status(401).body("Incorrect email or password");
        }

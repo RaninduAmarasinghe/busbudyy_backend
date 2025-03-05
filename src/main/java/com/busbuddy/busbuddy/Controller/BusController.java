@@ -21,10 +21,13 @@ public class BusController {
 
     @PostMapping("/add")
 
-    public String addBus(@RequestBody Bus bus) {
-        busRepo.save(bus);
-        return "success";
+    public String addBus(@RequestBody Bus bus, @RequestParam String companyId) {
+       bus.setCompanyId(companyId);
+       busRepo.save(bus);
+       return "success";
     }
+
+
 
  @Autowired
  BusService busService;

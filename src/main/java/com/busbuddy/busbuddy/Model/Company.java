@@ -15,7 +15,8 @@ import java.util.UUID;
 public class Company {
 
     @Id
-    private String companyId = UUID.randomUUID().toString();
+    private String companyId;
+
 
     private String companyName;
     private String companyAddress;
