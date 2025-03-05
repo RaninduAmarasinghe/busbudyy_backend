@@ -18,15 +18,23 @@ public class DriverController {
     @Autowired
     private DriverService driverService;
 
+    @Autowired
+    DriverRepo driverRepo;
+
     @PostMapping("/add")
-    public String createDriver(@RequestBody Driver driver) {
-        return driverService.createDriver(
+    public ResponseEntity<String> createDriver(@RequestBody Driver driver, @RequestParam String companyId) {
+
+        //set company id to driver
+        driver.setCompanyId(companyId);
+        //Save driver
+        String driverId = driverService.createDriver(
                 driver.getDriverName(),
                 driver.getDriverEmail(),
                 driver.getDriverPhone(),
                 driver.getDriverPassword(),
-                driver.getCompanyId()
+                companyId
         );
+        return ResponseEntity.ok("Driver Created Successfully" + driverId);
     }
 
 
@@ -37,9 +45,6 @@ public class DriverController {
     }
 
 
-    @Autowired
-    DriverRepo driverRepo;
-
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Driver driver) {
         // Use the `driver` parameter instead of the undefined `loginDetails`
@@ -47,10 +52,39 @@ public class DriverController {
 
         // Check if the driver exists and if the password matches
         if (driverOptional.isPresent() && driverOptional.get().getDriverPassword().equals(driver.getDriverPassword())) {
-            return ResponseEntity.ok("Login successful");
+            return ResponseEntity.ok(driverOptional.get().getCompanyId());
         } else {
             return ResponseEntity.status(401).body("Invalid email or password");
         }
     }
 
+//update driver
+    @PutMapping("/update/{driverId}")
+    public ResponseEntity<String> updateDriver(@PathVariable String driverId, @RequestBody Driver updatedDriver) {
+        Optional<Driver> existingDriver = driverRepo.findById(driverId);
+
+        if (existingDriver.isPresent()) {
+            Driver driver = existingDriver.get();
+            driver.setDriverName(updatedDriver.getDriverName());
+            driver.setDriverEmail(updatedDriver.getDriverEmail());
+            driver.setDriverPhone(updatedDriver.getDriverPhone());
+            driver.setDriverPassword(updatedDriver.getDriverPassword());
+
+            driverRepo.save(driver);
+            return ResponseEntity.ok("Driver updated successfully");
+        } else {
+            return ResponseEntity.status(404).body("Driver not found");
+        }
+    }
+
+    // Delete a driver
+    @DeleteMapping("/delete/{driverId}")
+    public ResponseEntity<String> deleteDriver(@PathVariable String driverId) {
+        if (driverRepo.existsById(driverId)) {
+            driverRepo.deleteById(driverId);
+            return ResponseEntity.ok("Driver deleted successfully");
+        } else {
+            return ResponseEntity.status(404).body("Driver not found");
+        }
+    }
 }

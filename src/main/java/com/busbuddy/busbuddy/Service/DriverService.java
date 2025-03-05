@@ -33,7 +33,7 @@ public class DriverService {
 
         Driver driver = new Driver(customId, name, email, phone, password, companyId);
         Driver savedDriver = driverRepo.save(driver);
-        return savedDriver.getId();
+        return savedDriver.getDriverId();
     }
 
     public List<Driver> getDriverByCompany(String companyId) {

@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Driver {
 
     @Id
-    private String id;
+    private String driverId;
     private String driverName;
 private String driverEmail;
 private String driverPhone;
