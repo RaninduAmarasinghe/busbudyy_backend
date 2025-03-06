@@ -45,13 +45,14 @@ public class DriverController {
     }
 
 
+    // Driver login
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Driver driver) {
-        // Use the `driver` parameter instead of the undefined `loginDetails`
         Optional<Driver> driverOptional = driverRepo.findByDriverEmail(driver.getDriverEmail());
 
         // Check if the driver exists and if the password matches
         if (driverOptional.isPresent() && driverOptional.get().getDriverPassword().equals(driver.getDriverPassword())) {
+            // Return the companyId on successful login
             return ResponseEntity.ok(driverOptional.get().getCompanyId());
         } else {
             return ResponseEntity.status(401).body("Invalid email or password");

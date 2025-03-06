@@ -20,11 +20,10 @@ public class BusController {
 
 
     @PostMapping("/add")
-
-    public String addBus(@RequestBody Bus bus, @RequestParam String companyId) {
-       bus.setCompanyId(companyId);
-       busRepo.save(bus);
-       return "success";
+    public ResponseEntity<String> addBus(@RequestBody Bus bus, @RequestParam String companyId) {
+        bus.setCompanyId(companyId); // Associate the bus with the company
+        busRepo.save(bus);
+        return ResponseEntity.ok("success");
     }
 
 
