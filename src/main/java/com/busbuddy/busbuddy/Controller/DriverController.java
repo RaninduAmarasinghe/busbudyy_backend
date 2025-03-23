@@ -50,11 +50,18 @@ public class DriverController {
     public ResponseEntity<String> login(@RequestBody Driver driver) {
         Optional<Driver> driverOptional = driverRepo.findByDriverEmail(driver.getDriverEmail());
 
-        // Check if the driver exists and if the password matches
-        if (driverOptional.isPresent() && driverOptional.get().getDriverPassword().equals(driver.getDriverPassword())) {
-            // Return the companyId on successful login
-            return ResponseEntity.ok(driverOptional.get().getCompanyId());
+        if (driverOptional.isPresent()) {
+            Driver dbDriver = driverOptional.get();
+            System.out.println("Driver found: " + dbDriver.getDriverEmail());
+            if (dbDriver.getDriverPassword().equals(driver.getDriverPassword())) {
+                System.out.println("Password matches");
+                return ResponseEntity.ok("{\"companyId\":\"" + dbDriver.getCompanyId() + "\", \"companyName\":\"" + dbDriver.getCompanyName() + "\", \"driverName\":\"" + dbDriver.getDriverName() + "\"}");
+            } else {
+                System.out.println("Password does not match");
+                return ResponseEntity.status(401).body("Invalid email or password");
+            }
         } else {
+            System.out.println("Driver not found");
             return ResponseEntity.status(401).body("Invalid email or password");
         }
     }

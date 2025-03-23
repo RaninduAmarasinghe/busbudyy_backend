@@ -31,7 +31,10 @@ public class DriverService {
             customId = generateCustomId();
         }
 
-        Driver driver = new Driver(customId, name, email, phone, password, companyId);
+        // Assuming companyName is fetched from somewhere (e.g., database or hardcoded)
+        String companyName = "Company XYZ";  // Replace this with actual logic if needed
+
+        Driver driver = new Driver(customId, name, email, phone, password, companyId, companyName);
         Driver savedDriver = driverRepo.save(driver);
         return savedDriver.getDriverId();
     }
