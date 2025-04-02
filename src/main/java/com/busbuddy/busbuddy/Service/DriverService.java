@@ -1,7 +1,10 @@
 
 package com.busbuddy.busbuddy.Service;
 
+import com.busbuddy.busbuddy.Model.Bus;
 import com.busbuddy.busbuddy.Model.Driver;
+import com.busbuddy.busbuddy.Repository.BusRepo;
+import com.busbuddy.busbuddy.Repository.CompanyRepo;
 import com.busbuddy.busbuddy.Repository.DriverRepo;
 import com.busbuddy.busbuddy.Repository.DriverRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,12 @@ public class DriverService {
     @Autowired
     private DriverRepo driverRepo;
 
+    @Autowired
+    private BusRepo busRepo;
+
+    @Autowired
+    private CompanyRepo companyRepo;
+
     // Generate a custom ID in the range 1000 - 9999
     private String generateCustomId() {
         Random random = new Random();
@@ -23,7 +32,7 @@ public class DriverService {
         return String.valueOf(customId);
     }
 
-    public String createDriver(String name, String email, String phone, String password, String companyId) {
+    public String createDriver(String name, String email, String phone, String password, String companyId, String busNumber) {
         String customId = generateCustomId();
 
         // Ensure the ID is unique
@@ -31,16 +40,24 @@ public class DriverService {
             customId = generateCustomId();
         }
 
-        // Assuming companyName is fetched from somewhere (e.g., database or hardcoded)
-        String companyName = "Company XYZ";  // Replace this with actual logic if needed
+       // Fetch company name
+        String companyName = companyRepo.findById(companyId)
+                .map(company -> company.getCompanyName())
+                .orElse("Unknown Company");
 
-        Driver driver = new Driver(customId, name, email, phone, password, companyId, companyName);
+        // Fetch bus by busNumber
+        Bus bus = busRepo.findById(busNumber).orElse(null);
+        if (bus != null) {
+            busRepo.save(bus); // Save bus details (if additional properties needed)
+        }//
+
+        Driver driver = new Driver(customId, name, email, phone, password, companyId, companyName, busNumber);
         Driver savedDriver = driverRepo.save(driver);
         return savedDriver.getDriverId();
     }
-
     public List<Driver> getDriverByCompany(String companyId) {
         return driverRepo.findByCompanyId(companyId);
     }
+
 }
 

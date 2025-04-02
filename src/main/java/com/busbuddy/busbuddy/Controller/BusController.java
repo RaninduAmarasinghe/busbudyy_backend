@@ -18,14 +18,12 @@ public class BusController {
 
     BusRepo busRepo;
 
-
     @PostMapping("/add")
     public ResponseEntity<String> addBus(@RequestBody Bus bus, @RequestParam String companyId) {
         bus.setCompanyId(companyId); // Associate the bus with the company
         busRepo.save(bus);
         return ResponseEntity.ok("success");
     }
-
 
 
  @Autowired
@@ -35,5 +33,9 @@ public class BusController {
         List<Bus> buses = busService.getBusesByCompany(companyId);
         return ResponseEntity.ok(buses);
     }
+
+
+
+
 
 }

@@ -22,9 +22,7 @@ public class CompanyController {
     // Adding company
     @PostMapping("/add")
     public ResponseEntity<String> createCompany(@RequestBody Company company) {
-
         String companyId = companyService.createCompany(company);
-
 
         return ResponseEntity.ok("Company created successfully with ID: " + companyId);
     }

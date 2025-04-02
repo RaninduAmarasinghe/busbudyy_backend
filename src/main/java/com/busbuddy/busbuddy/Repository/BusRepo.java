@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface BusRepo extends MongoRepository<Bus,String> {
 List<Bus> findByCompanyId(String companyId);
+    List<Bus> findByDriverId(String driverId);
 }
