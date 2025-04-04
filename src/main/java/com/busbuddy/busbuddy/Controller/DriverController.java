@@ -23,8 +23,17 @@ public class DriverController {
 
     @PostMapping("/add")
     public ResponseEntity<String> createDriver(@RequestBody Driver driver, @RequestParam String companyId) {
+        if (companyId == null || companyId.isEmpty()) {
+            return ResponseEntity.status(400).body("Company ID is required");
+        }
+
+        if (driver.getBusId() == null || driver.getBusId().isEmpty()) {
+            return ResponseEntity.status(400).body("Bus ID is required");
+        }
+
         // Set company ID to driver
         driver.setCompanyId(companyId);
+
         // Save driver
         String driverId = driverService.createDriver(
                 driver.getDriverName(),
@@ -32,8 +41,9 @@ public class DriverController {
                 driver.getDriverPhone(),
                 driver.getDriverPassword(),
                 companyId,
-                driver.getBusNumber()
+                driver.getBusId()
         );
+
         return ResponseEntity.ok("Driver Created Successfully: " + driverId);
     }
 
@@ -50,7 +60,10 @@ public class DriverController {
         if (driverOptional.isPresent()) {
             Driver dbDriver = driverOptional.get();
             if (dbDriver.getDriverPassword().equals(driver.getDriverPassword())) {
-                return ResponseEntity.ok("{\"companyId\":\"" + dbDriver.getCompanyId() + "\", \"companyName\":\"" + dbDriver.getCompanyName() + "\", \"driverName\":\"" + dbDriver.getDriverName() + "\"}");
+                return ResponseEntity.ok("{\"companyId\":\"" + dbDriver.getCompanyId() +
+                        "\", \"companyName\":\"" + dbDriver.getCompanyName() +
+                        "\", \"driverName\":\"" + dbDriver.getDriverName() +
+                        "\", \"busId\":\"" + dbDriver.getBusId() + "\"}");
             } else {
                 return ResponseEntity.status(401).body("Invalid email or password");
             }

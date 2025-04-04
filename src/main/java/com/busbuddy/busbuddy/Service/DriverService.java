@@ -32,7 +32,7 @@ public class DriverService {
         return String.valueOf(customId);
     }
 
-    public String createDriver(String name, String email, String phone, String password, String companyId, String busNumber) {
+    public String createDriver(String name, String email, String phone, String password, String companyId, String busId) {
         String customId = generateCustomId();
 
         // Ensure the ID is unique
@@ -46,12 +46,12 @@ public class DriverService {
                 .orElse("Unknown Company");
 
         // Fetch bus by busNumber
-        Bus bus = busRepo.findById(busNumber).orElse(null);
+        Bus bus = busRepo.findById(busId).orElse(null);
         if (bus != null) {
             busRepo.save(bus); // Save bus details (if additional properties needed)
         }//
 
-        Driver driver = new Driver(customId, name, email, phone, password, companyId, companyName, busNumber);
+        Driver driver = new Driver(customId, name, email, phone, password, companyId, companyName, busId);
         Driver savedDriver = driverRepo.save(driver);
         return savedDriver.getDriverId();
     }

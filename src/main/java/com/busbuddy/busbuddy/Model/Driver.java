@@ -20,6 +20,6 @@ private String driverPhone;
 private String driverPassword;
 private String companyId;
 private String companyName;
-private String busNumber;
+private String busId;
 
 }

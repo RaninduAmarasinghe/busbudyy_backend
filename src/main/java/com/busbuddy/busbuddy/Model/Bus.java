@@ -18,6 +18,7 @@ public class Bus {
 
 
     @Id
+    private String busId;
     private String busNumber;
 private List<Route> routes;
 private String companyId;
