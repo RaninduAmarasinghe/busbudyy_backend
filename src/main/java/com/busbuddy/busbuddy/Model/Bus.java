@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Document
@@ -26,4 +27,5 @@ private String companyId;
     @DBRef
     private Driver driver;
     private String status; // Example: "Running" or "Stopped"
+    private Map<String, Double> location;
 }

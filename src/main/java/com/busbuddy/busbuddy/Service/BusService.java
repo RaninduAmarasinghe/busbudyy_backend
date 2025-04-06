@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -65,4 +66,16 @@ public class BusService {
                 .filter(bus -> bus.getRoutes() != null && !bus.getRoutes().isEmpty())
                 .collect(Collectors.toList());
     }
+
+    // Update the location of a bus (latitude & longitude)
+ /*  public boolean updateBusLocation(String busId, Map<String, Double> location) {
+        Optional<Bus> busOpt = busRepo.findById(busId);
+        if (busOpt.isPresent()) {
+            Bus bus = busOpt.get();
+            bus.setLocation(location); // Make sure 'location' field exists in the Bus model
+            busRepo.save(bus);
+            return true;
+        }
+        return false;
+    } */
 }

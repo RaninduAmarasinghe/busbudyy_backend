@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/bus")
@@ -26,15 +27,13 @@ public class BusController {
     // Get buses by company ID
     @GetMapping("/company/{companyId}")
     public ResponseEntity<List<Bus>> getBusByCompany(@PathVariable String companyId) {
-        List<Bus> buses = busService.getBusesByCompany(companyId);
-        return ResponseEntity.ok(buses);
+        return ResponseEntity.ok(busService.getBusesByCompany(companyId));
     }
 
     // Get buses by driver ID
     @GetMapping("/driver/{driverId}")
     public ResponseEntity<List<Bus>> getBusesByDriver(@PathVariable String driverId) {
-        List<Bus> buses = busService.getBusesByDriver(driverId);
-        return ResponseEntity.ok(buses);
+        return ResponseEntity.ok(busService.getBusesByDriver(driverId));
     }
 
     // Get full bus details by bus ID
@@ -48,24 +47,30 @@ public class BusController {
     @PostMapping("/startTrip/{busId}")
     public ResponseEntity<String> startTrip(@PathVariable String busId) {
         boolean updated = busService.updateBusStatus(busId, "Running");
-        return updated
-                ? ResponseEntity.ok("Trip started")
-                : ResponseEntity.status(404).body("Bus not found");
+        return updated ? ResponseEntity.ok("Trip started") :
+                ResponseEntity.status(404).body("Bus not found");
     }
 
     // Stop a trip (set status = "Stopped")
     @PostMapping("/stopTrip/{busId}")
     public ResponseEntity<String> stopTrip(@PathVariable String busId) {
         boolean updated = busService.updateBusStatus(busId, "Stopped");
-        return updated
-                ? ResponseEntity.ok("Trip stopped")
-                : ResponseEntity.status(404).body("Bus not found");
+        return updated ? ResponseEntity.ok("Trip stopped") :
+                ResponseEntity.status(404).body("Bus not found");
     }
+
+    // ✅ New: Update location of the bus
+    /*   @PostMapping("/update-location/{busId}")
+    public ResponseEntity<String> updateLocation(@PathVariable String busId,
+                                                 @RequestBody Map<String, Double> location) {
+        boolean success = busService.updateBusLocation(busId, location);
+        return success ? ResponseEntity.ok("Location updated") :
+                ResponseEntity.status(404).body("Bus not found");
+    } */
 
     // Get all active buses (status = "Running" and must have routes)
     @GetMapping("/active")
     public ResponseEntity<List<Bus>> getActiveBuses() {
-        List<Bus> activeBuses = busService.getActiveBuses();
-        return ResponseEntity.ok(activeBuses);
+        return ResponseEntity.ok(busService.getActiveBuses());
     }
 }
