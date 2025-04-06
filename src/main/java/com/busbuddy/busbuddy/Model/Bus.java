@@ -25,4 +25,5 @@ private String companyId;
     private String driverId;
     @DBRef
     private Driver driver;
+    private String status; // Example: "Running" or "Stopped"
 }

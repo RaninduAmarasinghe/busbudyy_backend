@@ -9,10 +9,9 @@ import java.util.List;
 public interface BusRepo extends MongoRepository<Bus, String> {
     List<Bus> findByCompanyId(String companyId);
     List<Bus> findByDriverId(String driverId);
-
-    // Fetch by busId
     Bus findByBusId(String busId);
-
-    // Custom Query for Sorting
     List<Bus> findByBusId(String busId, Sort sort);
+    List<Bus> findByStatus(String status); // Add this to support /bus/active
+
+
 }
