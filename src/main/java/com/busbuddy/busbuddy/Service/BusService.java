@@ -1,6 +1,7 @@
 package com.busbuddy.busbuddy.Service;
 
 import com.busbuddy.busbuddy.Model.Bus;
+import com.busbuddy.busbuddy.Model.Location;
 import com.busbuddy.busbuddy.Repository.BusRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,14 +69,14 @@ public class BusService {
     }
 
     // Update the location of a bus (latitude & longitude)
- /*  public boolean updateBusLocation(String busId, Map<String, Double> location) {
+    public boolean updateBusLocation(String busId, Location location) {
         Optional<Bus> busOpt = busRepo.findById(busId);
         if (busOpt.isPresent()) {
             Bus bus = busOpt.get();
-            bus.setLocation(location); // Make sure 'location' field exists in the Bus model
+            bus.setLocation(location); // Updated to set a Location object
             busRepo.save(bus);
             return true;
         }
         return false;
-    } */
+    }
 }

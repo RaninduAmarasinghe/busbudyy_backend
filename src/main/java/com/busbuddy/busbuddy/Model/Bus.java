@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Document
@@ -16,16 +15,14 @@ import java.util.Map;
 @AllArgsConstructor
 public class Bus {
 
-
-
     @Id
     private String busId;
     private String busNumber;
-private List<Route> routes;
-private String companyId;
+    private List<Route> routes;
+    private String companyId;
     private String driverId;
     @DBRef
     private Driver driver;
     private String status; // Example: "Running" or "Stopped"
-    private Map<String, Double> location;
+    private Location location; // Updated to Location class
 }
