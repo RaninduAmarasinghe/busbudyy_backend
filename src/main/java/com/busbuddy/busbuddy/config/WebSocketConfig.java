@@ -10,14 +10,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/location"); // Topic prefix for subscribers
-        config.setApplicationDestinationPrefixes("/app"); // Prefix for messages from client
+        config.enableSimpleBroker("/location", "/topic"); // ✅ Added /topic for alerts
+        config.setApplicationDestinationPrefixes("/app"); // Messages from client to backend
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws-location") // WebSocket endpoint
                 .setAllowedOriginPatterns("*")
-                .withSockJS(); // Enable fallback for browsers that don't support WebSocket
+                .withSockJS(); // Enables fallback (e.g. for mobile browsers)
     }
 }
