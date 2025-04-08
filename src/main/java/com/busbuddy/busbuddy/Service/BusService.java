@@ -73,8 +73,9 @@ public class BusService {
         Optional<Bus> busOpt = busRepo.findById(busId);
         if (busOpt.isPresent()) {
             Bus bus = busOpt.get();
-            bus.setLocation(location); // Updated to set a Location object
-            busRepo.save(bus);
+            bus.setLocation(location); // Set the updated location
+            busRepo.save(bus);  // Save the updated bus document in the database
+            System.out.println("Updated bus location: " + bus.getLocation());
             return true;
         }
         return false;
