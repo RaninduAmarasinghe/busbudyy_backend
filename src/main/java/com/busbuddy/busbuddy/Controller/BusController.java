@@ -2,12 +2,16 @@ package com.busbuddy.busbuddy.Controller;
 
 import com.busbuddy.busbuddy.Model.Bus;
 import com.busbuddy.busbuddy.Model.Location; // Import the Location class
+import com.busbuddy.busbuddy.Model.Route;
 import com.busbuddy.busbuddy.Service.BusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/bus")
@@ -73,4 +77,30 @@ public class BusController {
     public ResponseEntity<List<Bus>> getActiveBuses() {
         return ResponseEntity.ok(busService.getActiveBuses());
     }
+
+
+    @GetMapping("/schedules")
+    public ResponseEntity<List<Map<String, Object>>> getBusSchedules() {
+        List<Bus> buses = busService.getAllBuses(); // add method in service if needed
+
+        List<Map<String, Object>> scheduleList = new ArrayList<>();
+
+        for (Bus bus : buses) {
+            if (bus.getRoutes() != null) {
+                for (Route route : bus.getRoutes()) {
+                    Map<String, Object> schedule = new HashMap<>();
+                    schedule.put("busNumber", bus.getBusNumber());
+                    schedule.put("routeNumber", route.getRouteNumber());
+                    schedule.put("startPoint", route.getStartPoint());
+                    schedule.put("endPoint", route.getEndPoint());
+                    schedule.put("departureTime", route.getDepartureTimes().isEmpty() ? "N/A" : route.getDepartureTimes().get(0));
+                    schedule.put("arrivalTime", route.getArrivalTimes().isEmpty() ? "N/A" : route.getArrivalTimes().get(0));
+                    scheduleList.add(schedule);
+                }
+            }
+        }
+
+        return ResponseEntity.ok(scheduleList);
+    }
+
 }

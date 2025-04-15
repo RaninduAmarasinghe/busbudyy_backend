@@ -80,4 +80,9 @@ public class BusService {
         }
         return false;
     }
+
+    public List<Bus> getAllBuses() {
+        return busRepo.findAll();
+    }
+
 }

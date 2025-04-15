@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -55,15 +57,23 @@ public class DriverController {
 
     // Driver login
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Driver driver) {
+    public ResponseEntity<?> login(@RequestBody Driver driver) {
         Optional<Driver> driverOptional = driverRepo.findByDriverEmail(driver.getDriverEmail());
+
         if (driverOptional.isPresent()) {
             Driver dbDriver = driverOptional.get();
+
             if (dbDriver.getDriverPassword().equals(driver.getDriverPassword())) {
-                return ResponseEntity.ok("{\"companyId\":\"" + dbDriver.getCompanyId() +
-                        "\", \"companyName\":\"" + dbDriver.getCompanyName() +
-                        "\", \"driverName\":\"" + dbDriver.getDriverName() +
-                        "\", \"busId\":\"" + dbDriver.getBusId() + "\"}");
+                // Return full driver data as structured JSON
+                Map<String, Object> response = new HashMap<>();
+                response.put("driverId", dbDriver.getDriverId());
+                response.put("driverName", dbDriver.getDriverName());
+                response.put("driverEmail", dbDriver.getDriverEmail());
+                response.put("companyId", dbDriver.getCompanyId());
+                response.put("companyName", dbDriver.getCompanyName());
+                response.put("busId", dbDriver.getBusId());
+
+                return ResponseEntity.ok(response);
             } else {
                 return ResponseEntity.status(401).body("Invalid email or password");
             }
