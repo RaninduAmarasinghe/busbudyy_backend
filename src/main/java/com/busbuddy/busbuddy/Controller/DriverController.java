@@ -109,4 +109,9 @@ public class DriverController {
             return ResponseEntity.status(404).body("Driver not found");
         }
     }
+
+    @GetMapping("/search")
+    public List<Driver> searchDrivers(@RequestParam String query) {
+        return driverRepo.findByDriverIdContainingIgnoreCaseOrDriverNameContainingIgnoreCase(query, query);
+    }
 }
