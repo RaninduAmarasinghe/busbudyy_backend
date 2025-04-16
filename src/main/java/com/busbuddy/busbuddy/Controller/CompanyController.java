@@ -27,7 +27,11 @@ public class CompanyController {
         return ResponseEntity.ok("Company created successfully with ID: " + companyId);
     }
 
-
+    @GetMapping("/{companyId}")
+    public ResponseEntity<Company> getCompanyById(@PathVariable String companyId) {
+        Optional<Company> company = companyRepo.findById(companyId);
+        return company.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
     @Autowired
     private CompanyRepo companyRepo;

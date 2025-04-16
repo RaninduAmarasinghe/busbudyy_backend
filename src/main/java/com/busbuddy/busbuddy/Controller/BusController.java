@@ -27,6 +27,21 @@ public class BusController {
         busService.createBus(bus, companyId);
         return ResponseEntity.ok("Bus added successfully");
     }
+    // Update bus
+    @PutMapping("/update/{busId}")
+    public ResponseEntity<String> updateBus(@PathVariable String busId, @RequestBody Bus updatedBus) {
+        boolean updated = busService.updateBus(busId, updatedBus);
+        return updated ? ResponseEntity.ok("Bus updated successfully") :
+                ResponseEntity.status(404).body("Bus not found");
+    }
+
+    // Delete bus
+    @DeleteMapping("/delete/{busId}")
+    public ResponseEntity<String> deleteBus(@PathVariable String busId) {
+        boolean deleted = busService.deleteBus(busId);
+        return deleted ? ResponseEntity.ok("Bus deleted successfully") :
+                ResponseEntity.status(404).body("Bus not found");
+    }
 
     // Get buses Using company ID
     @GetMapping("/company/{companyId}")

@@ -32,6 +32,28 @@ public class BusService {
         return busRepo.save(bus);
     }
 
+    // Update existing bus by ID
+    public boolean updateBus(String busId, Bus updatedBus) {
+        Optional<Bus> busOpt = busRepo.findById(busId);
+        if (busOpt.isPresent()) {
+            Bus existing = busOpt.get();
+            existing.setBusNumber(updatedBus.getBusNumber());
+            existing.setRoutes(updatedBus.getRoutes());
+            busRepo.save(existing);
+            return true;
+        }
+        return false;
+    }
+
+    //  Delete bus by ID
+    public boolean deleteBus(String busId) {
+        if (busRepo.existsById(busId)) {
+            busRepo.deleteById(busId);
+            return true;
+        }
+        return false;
+    }
+
     // Retrieve all buses belonging to a company
     public List<Bus> getBusesByCompany(String companyId) {
         return busRepo.findByCompanyId(companyId);
